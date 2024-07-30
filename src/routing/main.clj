@@ -15,9 +15,13 @@
   [request]
   (let [route {(:request-method request) (:uri request)}
         body (get routes route)]
-    {:status 200
-     :headers {"Content-Type" "text/html"}
-     :body body}))
+    (if body
+      {:status 200
+       :headers {"Content-Type" "text/html"}
+       :body body}
+      {:status 404
+       :headers {"Content-Type" "text/html"}
+       :body "Not found"})))
 
 (def app
   (wrap-reload handler))

@@ -8,6 +8,7 @@
 
 (def routes
   {{:get "/lists"} "Lists page"
+   {:get "/lists/:id"} "List page"
    {:get "/info"} "Info page"})
 
 (defn handler

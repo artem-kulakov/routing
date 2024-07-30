@@ -26,7 +26,7 @@
 (defn handler
   [request]
   (let [route {(:request-method request) (:uri request)}]
-    (get routes route)))
+    (get routes route (not-found))))
 
 (def app
   (wrap-reload handler))

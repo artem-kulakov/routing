@@ -15,7 +15,8 @@
    :headers {"Content-Type" "text/html"}
    :body "Info page"})
 
-(def not-found
+(defn not-found
+  []
   {:status 404})
 
 (defn handler
@@ -25,7 +26,7 @@
     (case route
       {:get "/lists"} (lists)
       {:get "/info"} (info)
-      not-found)))
+      (not-found))))
 
 (def app
   (wrap-reload handler))

@@ -19,14 +19,14 @@
   []
   {:status 404})
 
+(def routes
+  {{:get "/lists"} (lists)
+   {:get "/info"} (info)})
+
 (defn handler
   [request]
-  ;; (pp/pprint request)
   (let [route {(:request-method request) (:uri request)}]
-    (case route
-      {:get "/lists"} (lists)
-      {:get "/info"} (info)
-      (not-found))))
+    (get routes route)))
 
 (def app
   (wrap-reload handler))
@@ -36,4 +36,4 @@
   (jetty/run-jetty app {:port 3000}))
 
 (comment
-  (lists))
+  (identity routes))

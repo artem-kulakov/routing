@@ -14,14 +14,11 @@
 (defn handler
   [request]
   (let [route {(:request-method request) (:uri request)}
-        body (get routes route)]
-    (if body
-      {:status 200
+        body (get routes route)
+        status (if body 200 404)]
+      {:status status
        :headers {"Content-Type" "text/html"}
-       :body body}
-      {:status 404
-       :headers {"Content-Type" "text/html"}
-       :body "Not found"})))
+       :body (or body "Not found")}))
 
 (def app
   (wrap-reload handler))

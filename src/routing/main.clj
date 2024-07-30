@@ -3,9 +3,8 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [clojure.pprint :as pp]))
 
-(defn not-found
-  []
-  {:status 404})
+(def not-found
+  "Not found")
 
 (def routes
   {{:get "/lists"} "Lists page"
@@ -18,7 +17,7 @@
         status (if body 200 404)]
       {:status status
        :headers {"Content-Type" "text/html"}
-       :body (or body "Not found")}))
+       :body (or body not-found)}))
 
 (def app
   (wrap-reload handler))

@@ -1,5 +1,6 @@
 (ns routing.main
-  (:require [ring.adapter.jetty :as jetty]))
+  (:require [ring.adapter.jetty :as jetty]
+            [ring.middleware.reload :refer [wrap-reload]]))
 
 (defn handler
   [request]
@@ -9,4 +10,4 @@
 
 (defn -main
   [& args]
-  (jetty/run-jetty handler {:port 3000}))
+  (jetty/run-jetty (wrap-reload handler) {:port 3000}))

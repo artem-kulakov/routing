@@ -3,12 +3,14 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [clojure.pprint :as pp]))
 
-(def lists
+(defn lists
+  []
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body "Lists page"})
 
-(def info
+(defn info
+  []
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body "Info page"})
@@ -21,8 +23,8 @@
   ;; (pp/pprint request)
   (let [route {(:request-method request) (:uri request)}]
     (case route
-      {:get "/lists"} lists
-      {:get "/info"} info
+      {:get "/lists"} (lists)
+      {:get "/info"} (info)
       not-found)))
 
 (def app
@@ -31,3 +33,6 @@
 (defn -main
   [& args]
   (jetty/run-jetty app {:port 3000}))
+
+(comment
+  (lists))

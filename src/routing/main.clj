@@ -28,4 +28,11 @@
   (jetty/run-jetty app {:port 3000}))
 
 (comment
-  (identity routes))
+  (re-pattern (clojure.string/replace
+               "get /lists/:id"
+               #"/:\w+"
+               "/\\\\d+"))
+  (re-matches #"get /lists/\d+" "get /lists/10")
+  ;; "get /lists/:id" -> "get /lists/\d+", i.e. ":smth" -> "\d+"
+  "\fds"
+  "\\d+")

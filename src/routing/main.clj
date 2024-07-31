@@ -7,13 +7,13 @@
   "Not found")
 
 (def routes
-  {{:get "/lists"} "Lists page"
-   {:get "/lists/:id"} "List page"
-   {:get "/info"} "Info page"})
+  {"get /lists" "Lists page"
+   "get /lists/:id" "List page"
+   "get /info" "Info page"})
 
 (defn handler
   [request]
-  (let [route {(:request-method request) (:uri request)}
+  (let [route (str (name (:request-method request)) " " (:uri request))
         body (get routes route)
         status (if body 200 404)]
       {:status status

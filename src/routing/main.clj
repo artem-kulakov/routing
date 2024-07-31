@@ -18,14 +18,14 @@
                            #"/:\w+"
                            "/\\\\d+")) route))
 
-(defn foo
+(defn find-route
   [route]
   (second (first (filter #(f route (first %)) routes))))
 
 (defn handler
   [request]
   (let [route (str (name (:request-method request)) " " (:uri request))
-        body (foo route);;(get routes route)
+        body (find-route route);;(get routes route)
         status (if body 200 404)]
       {:status status
        :headers {"Content-Type" "text/html"}
@@ -50,4 +50,4 @@
   ;; "get /lists/:id" -> "get /lists/\d+", i.e. ":smth" -> "\d+"
   "\fds"
   "\\d+"
-  (foo "get /lists/1"))
+  (find-route "get /lists/1"))

@@ -22,14 +22,48 @@
   [route]
   (second (first (filter #(f route (first %)) routes))))
 
+
+
+
+
+(defn lists
+  [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Multiple lists"})
+
+(defn list
+  [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Single list"})
+
+(defn info
+  [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Info"})
+
+(defn not-found
+  []
+  {:status 404
+   :headers {"Content-Type" "text/html"}
+   :body "Not found"})
+
 (defn handler
   [request]
-  (let [route (str (name (:request-method request)) " " (:uri request))
-        body (find-route route);;(get routes route)
-        status (if body 200 404)]
-      {:status status
-       :headers {"Content-Type" "text/html"}
-       :body (or body not-found)}))
+  (let [route (str (name (:request-method request)) " " (:uri request))]
+    (case route
+      "get /lists" (lists request)
+      "get /lists/:id" (list request)
+      "get /info" (info request)
+      (not-found))))
+
+
+
+
+
+
 
 (def app
   (wrap-reload handler))

@@ -56,7 +56,7 @@
         routes {"get /lists" (lists request)
                 "get /lists/:id" (list request)
                 "get /info" (info request)}]
-    (find-route route routes)))
+    (or (find-route route routes) (not-found))))
 
 (def app
   (wrap-reload handler))

@@ -6,10 +6,10 @@
 (def not-found
   "Not found")
 
-(def routes
-  {"get /lists" "Lists page"
-   "get /lists/:id" "Single list page"
-   "get /info" "Info page"})
+;; (def routes
+;;   {"get /lists" "Lists page"
+;;    "get /lists/:id" "Single list page"
+;;    "get /info" "Info page"})
 
 (defn f
   [route rt]
@@ -19,7 +19,7 @@
                            "/\\\\d+")) route))
 
 (defn find-route
-  [route]
+  [route routes]
   (second (first (filter #(f route (first %)) routes))))
 
 
@@ -52,18 +52,11 @@
 
 (defn handler
   [request]
-  (let [route (str (name (:request-method request)) " " (:uri request))]
-    (case route
-      "get /lists" (lists request)
-      "get /lists/:id" (list request)
-      "get /info" (info request)
-      (not-found))))
-
-
-
-
-
-
+  (let [route (str (name (:request-method request)) " " (:uri request))
+        routes {"get /lists" (lists request)
+                "get /lists/:id" (list request)
+                "get /info" (info request)}]
+    (find-route route routes)))
 
 (def app
   (wrap-reload handler))

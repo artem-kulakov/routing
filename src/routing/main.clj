@@ -87,4 +87,5 @@
   ;; "get /lists/:id" -> "get /lists/\d+", i.e. ":smth" -> "\d+"
   "\fds"
   "\\d+"
-  (find-route "get /lists/1"))
+  (find-route "get /lists/1")
+  (re-matches #"get /lists/(\d+)" "get /lists/10"))

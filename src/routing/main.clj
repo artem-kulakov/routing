@@ -1,6 +1,7 @@
 (ns routing.main
   (:require [ring.adapter.jetty :as jetty]
             [ring.middleware.reload :refer [wrap-reload]]
+            [ring.util.codec :refer [form-decode]]
             [clojure.pprint :as pp]))
 
 (def not-found
@@ -28,6 +29,7 @@
 
 (defn lists
   [request]
+  (println (form-decode (:query-string request)))
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body "Multiple lists"})
@@ -37,6 +39,12 @@
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body "Single list"})
+
+(defn list-rename
+  [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Rename list"})
 
 (defn info
   [request]
@@ -52,8 +60,10 @@
 
 (defn handler
   [request]
+  (pp/pprint request)
   (let [route (str (name (:request-method request)) " " (:uri request))
         routes {"get /lists" (lists request)
+                "get /lists/:id/rename" (list-rename request)
                 "get /lists/:id" (list request)
                 "get /info" (info request)}]
     (or (find-route route routes) (not-found))))
